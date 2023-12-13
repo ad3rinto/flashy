@@ -18,7 +18,7 @@ def flip_card():
     canvas.itemconfig(card_img, image=card_back_img)
 
 
-window.after(3000, func=flip_card)
+flip_timer = window.after(3000, func=flip_card)
 
 with open("./data/french_words.csv") as datafile:
     data = pd.read_csv(datafile)
@@ -27,7 +27,8 @@ with open("./data/french_words.csv") as datafile:
 
 
 def next_card():
-    global current_card
+    global current_card, flip_timer
+    window.after_cancel(flip_timer)
     current_card = random.choice(list_of_words)
     french_word = current_card["French"]
     english_word = current_card["English"]
